@@ -40,7 +40,7 @@ p_load(bookdown, tidyverse, ggforce, flextable, latex2exp, png, magick) # basica
 
 While the tasks are meant to get you familiar with how *GitHub* works you should try and make regular commits as you work your way through. We want to see how often you're using *Git*. Below, within the `()` brackets provide the link to your GitHub Repo. Just cut and paste it so we know what the repo name is and where it is. 
 
-[My GitHub Repository]()
+[My GitHub Repository](https://github.com/ErzaZHAO/6207Erza)
 
 By adding the link in the `()` brackets it will hyperlink "My GitHub Repository". This is how to hyperlink in Rmarkdown documents.
 
@@ -53,7 +53,7 @@ This task involves cloning your repository on your computer. Where should we pla
 
 ```{r, answer1, echo=TRUE, eval = FALSE}
 
-## Write your answer here. 
+## As a platform for temporary storage and file sharing, security, stability and privacy of Github are not that reliable. Files might be easily tampered with by others. There is also the risk of file data disappearing when the platform crashes.
 
 ```
 
@@ -64,7 +64,7 @@ Before moving on you might have noticed that the code block above has a name `an
 >**Question 2**: In the second code block called `answer1` if we change echo = TRUE to echo = FALSE what will happen to the code block `answer1` when you render it?
 
 ```{r answer2, echo=TRUE, eval = FALSE}
-# Write your answer here
+# The result and image could only be shown without their codes.
 ```
 
 **Important**: Notice that `eval = FALSE` for many code chunks. When you complete the tasks. Make sure to change these to `TRUE` otherwise you will find your code does not run!
@@ -93,7 +93,7 @@ Write your answer in the code chunk below:
 
 ```{r, loaddata, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path to a file in the 'data/' folder"
+path <- "OA_activitydat_20190302_BIOL3207.csv"
   
 data <- read_csv(path)
 
@@ -105,9 +105,9 @@ Let's say that you added a new data folder that was inside an output folder (i.e
 
 ```{r, write, eval = FALSE, echo=TRUE}
 
-path <- "replace this text with your relative path"
+path <- "./OA_activitydat_20190302_BIOL3207.csv"
 
-write_csv(data, file = path)
+write_csv(data, file = "output/data/erza.csv")
 
 ```
 
@@ -117,10 +117,13 @@ write_csv(data, file = path)
 We're ready for some coding! Lets do some coding and wrangling of the `OA_activitydat_20190302_BIOL3207.csv` data that we will use for the workshop. Note above, the `loaddata` code chunk should have already written the code to load the data file. At this point, we're assuming it's in your working space. If not, make sure you run the `loaddata` code chunk. 
 
 First, write some code below to remove missing data
-
+```{r}
+library(tidyverse)
+```
 ```{r, rmMiss}
-# Code to removing missing data from the `OA_activitydat_20190302_BIOL3207.csv` data frame. 
+fixed_data<- data %>% filter(!(is.na(activity)))
 
+fixed_data
 ```
 
 Second, drop out irrelevant columns and check that there are no spelling issues in `species` and `treatment`. Create a table of summary data that includes: 1) the mean, 2) the standard error and 3) the sample sizes of unique fish across ALL six fish species for each treatment. This will also help you detect any spelling errors. You can use the R package [`flextable`](https://ardata-fr.github.io/flextable-book/) to print out the results in a nice neat format! If you haven't heard about `flextable` spend 10 or so minutes having a look at it's functionality. It's incredible! You'll use this for tables throughout.
@@ -131,6 +134,9 @@ Second, drop out irrelevant columns and check that there are no spelling issues 
 # Check spelling in species and treatment but also generate a summary table
 
 # Use flextable to render the summary table in a tidy format
+fixed_data %>% group_by(species,treatment) %>% summarise(mean(size))
+
+fixed_data
 
 ```
 
@@ -139,7 +145,7 @@ Second, drop out irrelevant columns and check that there are no spelling issues 
 >**Question 5**: The new version of your Rmarkdown file should now be up on *GitHub*. In the browser window click on your most recent commit. Have a look at the file versioning system. You will notice two files side-by-side. Describe what you notice is being presented online. What do the red and green highlights mean?
 
 ```{r answer5, echo=TRUE, eval=FALSE}
-## Write your answer here....remember to use '#" in front of your text.
+##
 ```
 
 # **Task 5**
@@ -161,7 +167,9 @@ Note the code chunk used to make the figure. It has a `fig.cap` argument. That m
 Now that you have the figure you may also want to write / save it as a separate file. Use `ggsave` function to save the figure(s) to your new `output/figures/`:
 
 ```{r, savefig}
-# Use ggsave to save the figure
+path <- "./OA_activitydat_20190302_BIOL3207.csv"
+
+ggsave_(data, file = "output/figures/erza.")
 
 ```
 
